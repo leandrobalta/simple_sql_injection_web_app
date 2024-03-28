@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <span>hint: username is admin</span>
+    <form id="loginForm">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <input type="checkbox" id="permitir" name="permitir">
+            <label for="permitir">Permitir Sql Injection</label>
+        </div>
+        <button type="submit">Login</button>
+        <div id="mensagem">
+            <span id="message"></span>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const permitir = document.getElementById('permitir').checked;
+
+            const data = {
+                username: username,
+                password: password,
+                injectionAllowed: permitir
+            };
+
+            const options = {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) 
+            };
+
+            fetch('/login', options)
+                .then(response => {
+                    response.json().then(data => {
+                        document.getElementById('message').textContent = data.message;
+                    });
+                })
+                .catch(error => console.error('Erro durante a requisição:', error));
+        });
+    </script>
+</body>
+</html>
