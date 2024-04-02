@@ -7,7 +7,6 @@
 </head>
 <body>
     <h2>Login</h2>
-    <span>hint: username is admin</span>
     <form id="loginForm">
         <div>
             <label for="username">Username:</label>
@@ -20,6 +19,10 @@
         <div>
             <input type="checkbox" id="permitir" name="permitir">
             <label for="permitir">Permitir Sql Injection</label>
+        </div>
+        <div>
+            <input type="checkbox" id="usarVerificador" name="usarVerificador">
+            <label for="permitir">Usar verificador de SQLi customizado</label>
         </div>
         <button type="submit">Login</button>
         <div id="mensagem">
@@ -34,11 +37,18 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const permitir = document.getElementById('permitir').checked;
+            const usarVerificador = document.getElementById('usarVerificador').checked;
+
+            if (usarVerificador && permitir) {
+                alert('Você não pode usar o verificador de SQLi customizado e permitir SQL Injection ao mesmo tempo');
+                return;
+            }
 
             const data = {
                 username: username,
                 password: password,
-                injectionAllowed: permitir
+                injectionAllowed: permitir,
+                useCustomVerification: usarVerificador
             };
 
             const options = {
