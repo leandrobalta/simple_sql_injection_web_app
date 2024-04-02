@@ -8,7 +8,6 @@ app.use(express.json());
 const db = new sqlite(path.resolve("main.db"), { fileMustExist: true });
 
 function isSqlInjection(query) {
-    // https://regexr.com/
     const blacklist = ['"',"'", ";", "--", "=", "%", "LIKE", "*", "(", ")","AND", "OR", "UNION", "SELECT", "FROM", "WHERE", "INSERT", "DELETE", "UPDATE", "DROP", "CREATE", "ALTER", "TABLE", "DATABASE"];
 
     for (let i = 0; i < blacklist.length; i++) {
